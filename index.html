@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Assignment — Vendor Manager · Alconost</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Noto+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Alconost brand */
+      --blue:       #007AFF;
+      --deep-blue:  #0F1BC5;
+      --orange:     #FF492C;
+      --green:      #00BF56;
+      --yellow:     #FFF16B;
+      --pink:       #FE1197;
+      --lime:       #B8E038;
+      --purple:     #D098F3;
+      --light-blue: #B6CDFF;
+      --amber:      #FFBF42;
+
+      /* Dark scheme */
+      --bg:         #0A0A0A;
+      --surface:    #1F1F1F;
+      --surface-2:  #2A2A2A;
+      --surface-3:  #333333;
+      --border:     rgba(255,255,255,0.08);
+      --border-2:   rgba(255,255,255,0.14);
+
+      /* Text */
+      --text:       #E8F0FF;
+      --text-muted: #D6D6D6;
+      --text-dim:   #888888;
+
+      /* Typography */
+      --font-head: 'Montserrat', sans-serif;
+      --font-body: 'Noto Sans', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 110px;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: relative;
+      overflow: hidden;
+      padding: 52px 24px 48px;
+      text-align: center;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: -60px;
+      background: radial-gradient(ellipse 60% 50% at 30% 60%, rgba(0,122,255,0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 50% at 75% 40%, rgba(255,73,44,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .logo-text {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--border-2);
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(0,122,255,0.15);
+      border: 1px solid rgba(0,122,255,0.35);
+      color: var(--light-blue);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      white-space: nowrap;
+    }
+
+    header h1 {
+      font-family: var(--font-head);
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #fff 30%, var(--light-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border-2);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .header-note strong { color: var(--light-blue); }
+
+    /* ─── CANDIDATE CARD ─── */
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .candidate-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-top: 36px;
+    }
+
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .candidate-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 7px; }
+
+    .field-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .field-group input {
+      background: var(--surface-2);
+      border: 1.5px solid var(--border-2);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .field-group input::placeholder { color: #555; }
+    .field-group input:focus { border-color: var(--blue); background: var(--surface-3); }
+
+    /* ─── TOC ─── */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-top: 16px;
+    }
+
+    .toc-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .progress-info {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .progress-bar-wrap {
+      height: 3px;
+      background: var(--surface-3);
+      border-radius: 999px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--lime));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+
+    .toc-item:hover { background: var(--surface-3); border-color: var(--border-2); color: var(--text); }
+    .toc-item.done { border-color: rgba(0,191,86,0.4); background: rgba(0,191,86,0.08); color: var(--green); }
+    .toc-item.done .toc-num { background: var(--green); }
+
+    .toc-num {
+      background: var(--blue);
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--font-head);
+    }
+
+    /* ─── MAIN ─── */
+    main {
+      max-width: 880px;
+      margin: 16px auto 0;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ─── SECTION CARD ─── */
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+
+    .section-card.done { border-color: rgba(0,191,86,0.35); }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    /* each part gets its own accent color */
+    .section-card:nth-child(1) .section-number { background: var(--blue); }
+    .section-card:nth-child(2) .section-number { background: var(--orange); }
+    .section-card:nth-child(3) .section-number { background: var(--pink); }
+    .section-card:nth-child(4) .section-number { background: var(--amber); color: #1F1F1F; }
+    .section-card:nth-child(5) .section-number { background: var(--lime); color: #1F1F1F; }
+    .section-card:nth-child(6) .section-number { background: var(--purple); color: #1F1F1F; }
+    .section-card:nth-child(7) .section-number { background: var(--green); }
+
+    .section-card.done .section-number { background: var(--green) !important; color: #fff !important; }
+
+    .section-number {
+      color: #fff;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      font-family: var(--font-head);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.25s;
+    }
+
+    .section-title-group { flex: 1; }
+
+    .section-part {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 3px;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .done-badge {
+      display: none;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0,191,86,0.15);
+      color: var(--green);
+      border: 1px solid rgba(0,191,86,0.3);
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+    }
+
+    .section-card.done .done-badge { display: flex; }
+
+    .section-body { padding: 24px 28px; }
+
+    /* ─── SCENARIO PARAMS ─── */
+    .scenario-params {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .param-tag {
+      background: rgba(0,122,255,0.12);
+      border: 1px solid rgba(0,122,255,0.25);
+      color: var(--light-blue);
+      border-radius: 7px;
+      padding: 5px 12px;
+      font-size: 12.5px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    /* ─── QUESTIONS ─── */
+    .questions-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+
+    .questions-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .questions-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .q-num {
+      background: var(--surface-3);
+      color: var(--light-blue);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      min-width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .q-text { font-size: 14px; color: var(--text-muted); }
+
+    /* ─── DIVIDER ─── */
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+    /* ─── SUBPOINTS ─── */
+    .subpoints {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .subpoint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(0,122,255,0.07);
+      border-radius: 8px;
+      border-left: 3px solid var(--blue);
+    }
+
+    .subpoint-bullet { width: 7px; height: 7px; background: var(--blue); border-radius: 50%; flex-shrink: 0; }
+    .subpoint-text { font-size: 13.5px; font-weight: 500; color: var(--light-blue); }
+
+    /* ─── MARGIN TABLE ─── */
+    .margin-table-wrap { overflow-x: auto; margin-bottom: 20px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+
+    .margin-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+
+    .margin-table th {
+      background: var(--surface-3);
+      color: var(--text-dim);
+      padding: 10px 16px;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .margin-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+    .margin-table tr:last-child td { border-bottom: none; }
+    .highlight-val { font-weight: 700; color: var(--amber); font-family: var(--font-mono); }
+
+    /* ─── BULLET LIST ─── */
+    .context-list { list-style: none; margin-bottom: 18px; }
+
+    .context-list li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .context-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      opacity: 0.6;
+    }
+
+    /* ─── PROCESS CHIPS ─── */
+    .process-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
+    .process-chip {
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    .process-chip:nth-child(1) { background: rgba(0,122,255,0.1);   border-color: rgba(0,122,255,0.3);   color: var(--light-blue); }
+    .process-chip:nth-child(2) { background: rgba(208,152,243,0.1); border-color: rgba(208,152,243,0.3); color: var(--purple); }
+    .process-chip:nth-child(3) { background: rgba(184,224,56,0.1);  border-color: rgba(184,224,56,0.3);  color: var(--lime); }
+    .process-chip:nth-child(4) { background: rgba(255,191,66,0.1);  border-color: rgba(255,191,66,0.3);  color: var(--amber); }
+
+    /* ─── TEXTAREA ─── */
+    .answer-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-dim);
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    .answer-textarea {
+      width: 100%;
+      min-height: 150px;
+      background: var(--surface-2);
+      border: 1.5px solid var(--border-2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      color: var(--text);
+      resize: vertical;
+      outline: none;
+      line-height: 1.65;
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    }
+
+    .answer-textarea::placeholder { color: #444; }
+
+    .answer-textarea:focus {
+      border-color: var(--blue);
+      background: var(--surface-3);
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    }
+
+    .char-count {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #444;
+      margin-top: 5px;
+    }
+
+    /* ─── STICKY SUBMIT BAR ─── */
+    .submit-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border-2);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 100;
+    }
+
+    .submit-status {
+      font-size: 13px;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+    }
+
+    .submit-status strong { color: var(--light-blue); }
+
+    .btn-submit {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 30px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-head);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 20px rgba(255,73,44,0.35);
+    }
+
+    .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(255,73,44,0.45); }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-80px);
+      background: var(--surface-3);
+      color: var(--text);
+      border: 1px solid var(--border-2);
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 200;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ─── MODAL ─── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index: 150;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border-2);
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(0,191,86,0.15);
+      border: 1px solid rgba(0,191,86,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      font-size: 28px;
+    }
+
+    .modal h3 {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .modal p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .modal p strong { color: var(--light-blue); }
+
+    .modal-actions { display: flex; gap: 10px; justify-content: center; }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-head);
+      cursor: pointer;
+      transition: opacity 0.15s;
+      box-shadow: 0 4px 16px rgba(255,73,44,0.3);
+    }
+
+    .btn-primary:hover { opacity: 0.88; }
+
+    .btn-secondary {
+      background: var(--surface-3);
+      color: var(--text-muted);
+      border: 1px solid var(--border-2);
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-secondary:hover { background: #3a3a3a; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--text-dim);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    footer a { color: var(--blue); text-decoration: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .section-header { padding: 16px 18px; }
+      .section-body { padding: 18px; }
+      .candidate-fields { grid-template-columns: 1fr; }
+      .submit-bar { flex-direction: column; gap: 10px; padding: 12px 16px; }
+      .header-note { white-space: normal; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast">
+  <span style="color:var(--green)">✓</span>
+  <span id="toast-msg">Copied to clipboard!</span>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h3>Answers submitted!</h3>
+    <p>Your answers have been saved to the spreadsheet.<br>
+    Anastasiya will review them shortly.</p>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="closeModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="header-top">
+    <a class="logo" href="#">
+      <img src="logo.svg" alt="Alconost" />
+      <span class="logo-text">Alconost</span>
+    </a>
+    <div class="header-divider"></div>
+    <div class="header-badge">Test Assignment</div>
+  </div>
+  <h1>Vendor Manager Position</h1>
+  <div class="header-note">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--light-blue);flex-shrink:0">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/>
+    </svg>
+    Fill in your answers below and click <strong>Submit</strong> — answers go directly to a spreadsheet
+  </div>
+</header>
+
+<!-- ═══ CANDIDATE ═══ -->
+<div class="wrap">
+  <div class="candidate-card">
+    <div class="card-label">Your details</div>
+    <div class="candidate-fields">
+      <div class="field-group">
+        <label for="c-name">Full name</label>
+        <input type="text" id="c-name" placeholder="Jane Smith" />
+      </div>
+      <div class="field-group">
+        <label for="c-email">Email</label>
+        <input type="email" id="c-email" placeholder="jane@example.com" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TOC ═══ -->
+  <div class="toc" style="margin-top:16px;">
+    <div class="toc-top">
+      <div class="card-label" style="margin:0">Contents</div>
+      <span class="progress-info" id="progress-info">0 / 7</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="toc-grid">
+      <a href="#part1" class="toc-item" id="toc1"><span class="toc-num" style="background:var(--blue)">1</span>Role Understanding</a>
+      <a href="#part2" class="toc-item" id="toc2"><span class="toc-num" style="background:var(--orange)">2</span>Targeted Vendor Sourcing</a>
+      <a href="#part3" class="toc-item" id="toc3"><span class="toc-num" style="background:var(--pink)">3</span>Mass Hiring Scenario</a>
+      <a href="#part4" class="toc-item" id="toc4"><span class="toc-num" style="background:var(--amber);color:#1F1F1F">4</span>Margin Analysis</a>
+      <a href="#part5" class="toc-item" id="toc5"><span class="toc-num" style="background:var(--lime);color:#1F1F1F">5</span>Translation Quality</a>
+      <a href="#part6" class="toc-item" id="toc6"><span class="toc-num" style="background:var(--purple);color:#1F1F1F">6</span>Vendor Risk Scenario</a>
+      <a href="#part7" class="toc-item" id="toc7"><span class="toc-num" style="background:var(--green)">7</span>Process Improvement</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <!-- PART 1 -->
+  <div class="section-card" id="part1">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title-group">
+        <div class="section-part">Part 1</div>
+        <div class="section-title">Role Understanding</div>
+      </div>
+      <div class="done-badge">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Done
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Briefly describe what you believe are the key responsibilities of a Vendor Manager in a localization company working with both human translation and AI-driven language workflows.</p>
+      <p style="font-size:12.5px;color:var(--text-dim);margin-bottom:14px;">Structure your answer into the following areas — provide <strong style="color:var(--text-muted)">1–2 paragraphs</strong> per section:</p>
+      <div class="subpoints">
+        <div class="subpoint"><div class="subpoint-bullet"></div><span class="subpoint-text">Vendor sourcing</span></div>
+        <div class="subpoint"><div class="subpoint-bullet"></div><span class="subpoint-text">Onboarding and compliance</span></div>
+        <div class="subpoint"><div class="subpoint-bullet"></div><span class="subpoint-text">Quality management</span></div>
+        <div class="subpoint"><div class="subpoint-bullet"></div><span class="subpoint-text">Cost and margin monitoring</span></div>
+        <div class="subpoint"><div class="subpoint-bullet"></div><span class="subpoint-text">Collaboration with internal teams</span></div>
+        <div class="subpoint"><div class="subpoint-bullet"></div><span class="subpoint-text">Process improvement</span></div>
+      </div>
+      <div class="answer-label">Your answer</div>
+      <textarea class="answer-textarea" id="ans1" data-part="1" placeholder="Write your answer here…" oninput="onType(this)"></textarea>
+      <div class="char-count" id="cc1">0 characters</div>
+    </div>
+  </div>
+
+  <!-- PART 2 -->
+  <div class="section-card" id="part2">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title-group">
+        <div class="section-part">Part 2</div>
+        <div class="section-title">Targeted Vendor Sourcing Scenario</div>
+      </div>
+      <div class="done-badge">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Done
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">You need to build a small translation team with the following parameters:</p>
+      <div class="scenario-params">
+        <span class="param-tag">EN → CS</span>
+        <span class="param-tag">Legal domain</span>
+        <span class="param-tag">100,000 words / month</span>
+        <span class="param-tag">Start in 2 weeks</span>
+      </div>
+      <div class="divider"></div>
+      <div class="questions-label">Describe the following:</div>
+      <ul class="questions-list">
+        <li><span class="q-num">1</span><span class="q-text">Your sourcing strategy</span></li>
+        <li><span class="q-num">2</span><span class="q-text">Where you would search for linguists</span></li>
+        <li><span class="q-num">3</span><span class="q-text">How many candidates you would screen</span></li>
+        <li><span class="q-num">4</span><span class="q-text">How you would evaluate candidates before project start</span></li>
+        <li><span class="q-num">5</span><span class="q-text">Risks you anticipate and how you would mitigate them</span></li>
+      </ul>
+      <div class="answer-label">Your answer</div>
+      <textarea class="answer-textarea" id="ans2" data-part="2" placeholder="Write your answer here…" oninput="onType(this)"></textarea>
+      <div class="char-count" id="cc2">0 characters</div>
+    </div>
+  </div>
+
+  <!-- PART 3 -->
+  <div class="section-card" id="part3">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title-group">
+        <div class="section-part">Part 3</div>
+        <div class="section-title">Mass Hiring Scenario — AI / Data Labeling</div>
+      </div>
+      <div class="done-badge">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Done
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">You need to recruit a team of linguists for a data labeling project:</p>
+      <div class="scenario-params">
+        <span class="param-tag">German</span>
+        <span class="param-tag">70 linguists</span>
+        <span class="param-tag">Deadline: 10 days</span>
+      </div>
+      <div class="divider"></div>
+      <div class="questions-label">Describe the following:</div>
+      <ul class="questions-list">
+        <li><span class="q-num">1</span><span class="q-text">Sourcing channels you would prioritize</span></li>
+        <li><span class="q-num">2</span><span class="q-text">Which steps you would automate</span></li>
+        <li><span class="q-num">3</span><span class="q-text">How you would structure candidate filtering</span></li>
+        <li><span class="q-num">4</span><span class="q-text">What metrics you would track daily</span></li>
+        <li><span class="q-num">5</span><span class="q-text">How you would prevent candidate drop-off during onboarding</span></li>
+      </ul>
+      <div class="answer-label">Your answer</div>
+      <textarea class="answer-textarea" id="ans3" data-part="3" placeholder="Write your answer here…" oninput="onType(this)"></textarea>
+      <div class="char-count" id="cc3">0 characters</div>
+    </div>
+  </div>
+
+  <!-- PART 4 -->
+  <div class="section-card" id="part4">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title-group">
+        <div class="section-part">Part 4</div>
+        <div class="section-title">Margin Analysis Scenario</div>
+      </div>
+      <div class="done-badge">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Done
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Project parameters — the current margin is <strong style="color:var(--orange)">below target</strong>:</p>
+      <div class="margin-table-wrap">
+        <table class="margin-table">
+          <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Client rate</td><td class="highlight-val">€0.12 / word</td></tr>
+            <tr><td>Vendor rate</td><td class="highlight-val">€0.095 / word</td></tr>
+            <tr><td>Volume</td><td class="highlight-val">60,000 words / month</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="questions-label">Explain the following:</div>
+      <ul class="questions-list">
+        <li><span class="q-num">1</span><span class="q-text">What additional information you would request before taking action</span></li>
+        <li><span class="q-num">2</span><span class="q-text">Possible ways to improve project margin</span></li>
+        <li><span class="q-num">3</span><span class="q-text">When replacing a linguist is justified</span></li>
+        <li><span class="q-num">4</span><span class="q-text">How to minimize quality risks when changing vendors</span></li>
+      </ul>
+      <div class="answer-label">Your answer</div>
+      <textarea class="answer-textarea" id="ans4" data-part="4" placeholder="Write your answer here…" oninput="onType(this)"></textarea>
+      <div class="char-count" id="cc4">0 characters</div>
+    </div>
+  </div>
+
+  <!-- PART 5 -->
+  <div class="section-card" id="part5">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <div class="section-title-group">
+        <div class="section-part">Part 5</div>
+        <div class="section-title">Translation Quality Scenario</div>
+      </div>
+      <div class="done-badge">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Done
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">A linguist has the following performance profile:</p>
+      <ul class="context-list">
+        <li>Consistently delivers on time</li>
+        <li>Communicates well</li>
+        <li>Receives <strong style="color:var(--orange)">below-average quality scores</strong> in internal evaluations across multiple projects</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="questions-label">Describe the following:</div>
+      <ul class="questions-list">
+        <li><span class="q-num">1</span><span class="q-text">How you would investigate the situation</span></li>
+        <li><span class="q-num">2</span><span class="q-text">What actions you would take</span></li>
+        <li><span class="q-num">3</span><span class="q-text">When replacement is necessary</span></li>
+        <li><span class="q-num">4</span><span class="q-text">How structured quality evaluation data can support vendor performance decisions</span></li>
+      </ul>
+      <div class="answer-label">Your answer</div>
+      <textarea class="answer-textarea" id="ans5" data-part="5" placeholder="Write your answer here…" oninput="onType(this)"></textarea>
+      <div class="char-count" id="cc5">0 characters</div>
+    </div>
+  </div>
+
+  <!-- PART 6 -->
+  <div class="section-card" id="part6">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <div class="section-title-group">
+        <div class="section-part">Part 6</div>
+        <div class="section-title">Vendor Risk Scenario</div>
+      </div>
+      <div class="done-badge">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Done
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">
+        You discover that a linguist used <strong style="color:var(--orange)">raw machine translation</strong> in a project that required human translation.
+      </p>
+      <div class="divider"></div>
+      <div class="questions-label">Describe the following:</div>
+      <ul class="questions-list">
+        <li><span class="q-num">1</span><span class="q-text">Immediate actions</span></li>
+        <li><span class="q-num">2</span><span class="q-text">Communication steps with the linguist</span></li>
+        <li><span class="q-num">3</span><span class="q-text">How to prevent similar cases in the future</span></li>
+        <li><span class="q-num">4</span><span class="q-text">What long-term decision you would make regarding further collaboration</span></li>
+      </ul>
+      <div class="answer-label">Your answer</div>
+      <textarea class="answer-textarea" id="ans6" data-part="6" placeholder="Write your answer here…" oninput="onType(this)"></textarea>
+      <div class="char-count" id="cc6">0 characters</div>
+    </div>
+  </div>
+
+  <!-- PART 7 -->
+  <div class="section-card" id="part7">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <div class="section-title-group">
+        <div class="section-part">Part 7</div>
+        <div class="section-title">Process Improvement Thinking</div>
+      </div>
+      <div class="done-badge">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Done
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">Describe one vendor-management-related process that could be improved using:</p>
+      <div class="process-chips">
+        <span class="process-chip">Automation</span>
+        <span class="process-chip">AI tools</span>
+        <span class="process-chip">Internal dashboards</span>
+        <span class="process-chip">Workflow redesign</span>
+      </div>
+      <p style="font-size:12.5px;color:var(--text-dim);margin-bottom:10px;">Examples may include:</p>
+      <ul class="context-list" style="margin-bottom:18px;">
+        <li>Sourcing</li><li>Testing</li><li>Onboarding</li>
+        <li>Quality tracking</li><li>Rate benchmarking</li><li>Vendor performance monitoring</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="questions-label">Explain the following:</div>
+      <ul class="questions-list">
+        <li><span class="q-num">1</span><span class="q-text">Current limitations of the process</span></li>
+        <li><span class="q-num">2</span><span class="q-text">Your proposed solution</span></li>
+        <li><span class="q-num">3</span><span class="q-text">Expected impact</span></li>
+      </ul>
+      <div class="answer-label">Your answer</div>
+      <textarea class="answer-textarea" id="ans7" data-part="7" placeholder="Write your answer here…" oninput="onType(this)"></textarea>
+      <div class="char-count" id="cc7">0 characters</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Questions? <a href="mailto:anastasiya@alconost.com">anastasiya@alconost.com</a></p>
+</footer>
+
+<!-- ═══ SUBMIT BAR ═══ -->
+<div class="submit-bar">
+  <span class="submit-status" id="submit-status"><strong>0 / 7</strong> completed</span>
+  <button class="btn-submit" id="btn-submit" onclick="handleSubmit()">
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+    </svg>
+    Submit
+  </button>
+</div>
+
+<script>
+  const TITLES = [
+    'PART 1 — Role Understanding',
+    'PART 2 — Targeted Vendor Sourcing Scenario',
+    'PART 3 — Mass Hiring Scenario (AI/Data Labeling)',
+    'PART 4 — Margin Analysis Scenario',
+    'PART 5 — Translation Quality Scenario',
+    'PART 6 — Vendor Risk Scenario',
+    'PART 7 — Process Improvement Thinking',
+  ];
+
+  function onType(el) {
+    const n = el.dataset.part;
+    const val = el.value.trim();
+    document.getElementById('cc' + n).textContent = el.value.length + ' characters';
+    const card = document.getElementById('part' + n);
+    const toc  = document.getElementById('toc' + n);
+    if (val.length > 20) { card.classList.add('done'); toc.classList.add('done'); }
+    else                  { card.classList.remove('done'); toc.classList.remove('done'); }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    let done = 0;
+    for (let i = 1; i <= 7; i++) {
+      if (document.getElementById('ans' + i).value.trim().length > 20) done++;
+    }
+    document.getElementById('progress-info').textContent = done + ' / 7';
+    document.getElementById('progress-bar').style.width = (done / 7 * 100) + '%';
+    document.getElementById('submit-status').innerHTML = '<strong>' + done + ' / 7</strong> completed';
+  }
+
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyNp1uB0f_psujA9WmAcABQolb-ZSOA9OMeJegwBsPuoMnV-f1VUWeu3J14eKbY4XG7/exec';
+
+  function showToast(msg, color) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.querySelector('span:first-child').style.color = color || 'var(--green)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  function handleSubmit() {
+    const name  = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+
+    if (!name || !email) {
+      showToast('Please fill in your name and email first.', 'var(--orange)');
+      document.getElementById('c-name').focus();
+      return;
+    }
+
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 0.8s linear infinite"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Sending…';
+
+    const payload = { name, email };
+    for (let i = 1; i <= 7; i++) {
+      payload['ans' + i] = document.getElementById('ans' + i).value.trim();
+    }
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      document.getElementById('modal').classList.add('open');
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg> Submit';
+    })
+    .catch(() => {
+      showToast('Connection error. Please try again.', 'var(--orange)');
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg> Submit';
+    });
+  }
+
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+  document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+</script>
+
+</body>
+</html>
