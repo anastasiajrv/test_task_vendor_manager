@@ -2,7 +2,14 @@ var SHEET_NAME = 'Submissions';
 
 function doPost(e) {
   try {
-    var data = JSON.parse(e.postData.contents);
+    // Accept both form-encoded (e.parameter) and JSON (e.postData)
+    var data;
+    if (e.parameter && e.parameter.name) {
+      data = e.parameter;
+    } else {
+      data = JSON.parse(e.postData.contents);
+    }
+
     var ss    = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
 
