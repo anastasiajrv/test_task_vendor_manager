@@ -1,0 +1,1 @@
+# test_task_vendor_manager
