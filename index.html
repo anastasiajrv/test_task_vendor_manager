@@ -388,6 +388,19 @@
       font-size: 12.5px;
       font-weight: 600;
       font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .param-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(182,205,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-right: 1px solid rgba(182,205,255,0.2);
+      padding-right: 7px;
     }
 
     /* ─── QUESTIONS ─── */
@@ -867,10 +880,10 @@
     <div class="section-body">
       <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">You need to build a small translation team with the following parameters:</p>
       <div class="scenario-params">
-        <span class="param-tag">EN → CS</span>
-        <span class="param-tag">Legal domain</span>
-        <span class="param-tag">100,000 words / month</span>
-        <span class="param-tag">Start in 2 weeks</span>
+        <span class="param-tag"><span class="param-label">Language pair</span>EN → CS</span>
+        <span class="param-tag"><span class="param-label">Domain</span>Legal</span>
+        <span class="param-tag"><span class="param-label">Volume</span>100,000 words / month</span>
+        <span class="param-tag"><span class="param-label">Start date</span>in 2 weeks</span>
       </div>
       <div class="divider"></div>
       <div class="questions-label">Describe the following:</div>
@@ -903,9 +916,9 @@
     <div class="section-body">
       <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">You need to recruit a team of linguists for a data labeling project:</p>
       <div class="scenario-params">
-        <span class="param-tag">German</span>
-        <span class="param-tag">70 linguists</span>
-        <span class="param-tag">Deadline: 10 days</span>
+        <span class="param-tag"><span class="param-label">Language</span>German</span>
+        <span class="param-tag"><span class="param-label">Team size</span>70 linguists</span>
+        <span class="param-tag"><span class="param-label">Deadline</span>10 days</span>
       </div>
       <div class="divider"></div>
       <div class="questions-label">Describe the following:</div>
