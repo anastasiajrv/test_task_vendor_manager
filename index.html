@@ -199,7 +199,7 @@
     }
 
     .field-group input::placeholder { color: #555; }
-    .field-group input:focus { border-color: var(--blue); background: var(--surface-3); }
+    .field-group input:focus { border-color: var(--blue) !important; background: var(--surface-3); }
 
     /* ─── TOC ─── */
     .toc {
@@ -1107,6 +1107,7 @@
   function onType(el) {
     const n = el.dataset.part;
     const val = el.value.trim();
+    el.style.borderColor = '';
     document.getElementById('cc' + n).textContent = el.value.length + ' characters';
     const card = document.getElementById('part' + n);
     const toc  = document.getElementById('toc' + n);
@@ -1140,7 +1141,19 @@
 
     if (!name || !email) {
       showToast('Please fill in your name and email first.', 'var(--orange)');
-      document.getElementById('c-name').focus();
+      document.getElementById(!name ? 'c-name' : 'c-email').focus();
+      document.getElementById(!name ? 'c-name' : 'c-email').style.borderColor = 'var(--orange)';
+      return;
+    }
+
+    const empty = [];
+    for (let i = 1; i <= 7; i++) {
+      if (!document.getElementById('ans' + i).value.trim()) empty.push(i);
+    }
+    if (empty.length > 0) {
+      showToast('Please answer Part ' + empty[0] + ' before submitting.', 'var(--orange)');
+      document.getElementById('ans' + empty[0]).style.borderColor = 'var(--orange)';
+      document.getElementById('part' + empty[0]).scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
